@@ -7,13 +7,13 @@ const logger = require('koa-logger');
 //Initialization
 const app = new Koa();
 const PORT = process.env.PORT || 8080;
-// const router = require('./server/index.js');
+const router = require('./routes/index.js');
 
 //Koa using
 app.use(cors());
 app.use(bodyParser());
 app.use(logger());
-// app.use(router.routes());
+app.use(router.routes());
 
 //Start listening
 app.listen(PORT, () => {
