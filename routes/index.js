@@ -4,7 +4,7 @@ const app = require('../server.js');
 //Importing routers
 
 //Connection to DB
-// require('./db/mongo.js')(app);
+require('../db/mongoDb.js')(app);
 
 //Index Routes
 router.get('/api/v2', async ctx => {
