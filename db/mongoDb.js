@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-const MONGO_URI = require('./mongo.config.js').uri;
+const MONGO_URI = require('./config.js').uri;
 
 module.exports = function(app) {
 	MongoClient.connect(MONGO_URI, { useNewUrlParser: true })
