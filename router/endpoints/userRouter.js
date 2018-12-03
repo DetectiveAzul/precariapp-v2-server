@@ -3,7 +3,7 @@ const router = new Router();
 const ObjectID = require('mongodb').ObjectID;
 
 const app = require('../../server.js');
-const BASE_URL = '/api/v1/users';
+const BASE_URL = '/api/v2/users';
 
 //GET /api/v1/users
 router.get(`${BASE_URL}`, async ctx => {
