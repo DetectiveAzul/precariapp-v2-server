@@ -8,8 +8,6 @@ const app = require('../../server.js');
 const jwtKey = require('../../db/config.js').jwtKey;
 const BASE_URL = '/api/v2/login';
 
-
-
 //POST /api/v2/login
 router.post(`${BASE_URL}`, async ctx => {
   try {
