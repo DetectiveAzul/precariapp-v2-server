@@ -3,7 +3,7 @@ const router = new Router();
 const app = require('../server.js');
 
 //Importing routers
-// const userRouter = require('./secureEndPoints/userRouter.js');
+const loginRouter = require('./loginEndPoint/loginRouter.js');
 
 //Connection to DB
 require('../db/mongoDb.js')(app);
@@ -17,7 +17,7 @@ require('../db/mongoDb.js')(app);
 // 	};
 // });
 
-//Re-routing
-// router.use(userRouter.routes());
+// Re-routing
+router.use(loginRouter.routes());
 
 module.exports = router;

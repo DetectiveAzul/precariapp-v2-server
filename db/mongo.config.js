@@ -2,4 +2,5 @@
 
 module.exports = {
 	uri: 'INSERT URI HERE',
+	jwtKey: 'INSERT A JWT KEY HERE' 
 };
