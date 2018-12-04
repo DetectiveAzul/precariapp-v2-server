@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const router = new Router();
-const ObjectID = require('mongodb').ObjectID;
+// const ObjectID = require('mongodb').ObjectID;
 
 const app = require('../../server.js');
 const BASE_URL = '/api/v2/tickets';
@@ -27,25 +27,25 @@ router.get(`${BASE_URL}`, jwt, async ctx => {
 	}
 });
 
-// //POST /api/v2/tickets
-// router.post(`${BASE_URL}`, async ctx => {
-// 	try {
-// 		await app.tickets.insertOne(ctx.request.body.data);
-// 		const newEntry = await app.tickets.findOne(ctx.request.body.data);
-// 		ctx.status = 200;
-// 		ctx.body = {
-// 			status: 'success',
-// 			message: `Posted new entry id: ${newEntry._id}`,
-// 			data: newEntry
-// 		};
-// 	} catch (error) {
-// 		ctx.status = 400;
-// 		ctx.body = {
-// 			status: 'error',
-// 			message: error.message || 'Sorry, an error has ocurred.'
-// 		};
-// 	}
-// });
+//POST /api/v2/tickets
+router.post(`${BASE_URL}`, async ctx => {
+	try {
+		await app.tickets.insertOne(ctx.request.body.data);
+		const newEntry = await app.tickets.findOne(ctx.request.body.data);
+		ctx.status = 200;
+		ctx.body = {
+			status: 'success',
+			message: `Posted new entry id: ${newEntry._id}`,
+			data: newEntry
+		};
+	} catch (error) {
+		ctx.status = 400;
+		ctx.body = {
+			status: 'error',
+			message: error.message || 'Sorry, an error has ocurred.'
+		};
+	}
+});
 
 // //GET /api/v2/tickets/:index
 // router.get(`${BASE_URL}/:index`, async ctx => {
@@ -74,7 +74,7 @@ router.get(`${BASE_URL}`, jwt, async ctx => {
 // 	}
 // });
 
-// //GET /api/v2/tickets/id/:id
+//GET /api/v2/tickets/id/:id
 // router.get(`${BASE_URL}/id/:id`, async ctx => {
 // 	try {
 // 		const id = ctx.params.id;
@@ -104,7 +104,7 @@ router.get(`${BASE_URL}`, jwt, async ctx => {
 // 	}
 // });
 
-// //PUT /api/v2/tickets/id/:id
+//PUT /api/v2/tickets/id/:id
 // router.put(`${BASE_URL}/id/:id`, async ctx => {
 // 	try {
 // 		const id = ctx.params.id;
@@ -130,7 +130,7 @@ router.get(`${BASE_URL}`, jwt, async ctx => {
 // 	}
 // });
 
-// //DELETE /api/v2/tickets/id/:id
+//DELETE /api/v2/tickets/id/:id
 // router.delete(`${BASE_URL}/id/:id`, async ctx => {
 // 	try {
 // 		const id = ctx.params.id;
