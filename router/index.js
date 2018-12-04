@@ -1,8 +1,10 @@
 const Router = require('koa-router');
 const router = new Router();
 const app = require('../server.js');
+
 //Importing routers
-const userRouter = require('./endpoints/userRouter.js');
+const userRouter = require('./secureEndPoints/userRouter.js');
+
 //Connection to DB
 require('../db/mongoDb.js')(app);
 
@@ -15,9 +17,6 @@ router.get('/api/v2', async ctx => {
 });
 
 //Re-routing
-// router.use(categoryRouter.routes());
 router.use(userRouter.routes());
-// router.use(customerRouter.routes());
-// router.use(ticketRouter.routes());
 
 module.exports = router;
