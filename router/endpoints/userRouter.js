@@ -5,7 +5,7 @@ const ObjectID = require('mongodb').ObjectID;
 const app = require('../../server.js');
 const BASE_URL = '/api/v2/users';
 
-//GET /api/v1/users
+//GET /api/v2/users
 router.get(`${BASE_URL}`, async ctx => {
 	try {
 		const userData = await app.users.find().toArray();
@@ -24,7 +24,7 @@ router.get(`${BASE_URL}`, async ctx => {
 	}
 });
 
-//POST /api/v1/users
+//POST /api/v2/users
 router.post(`${BASE_URL}`, async ctx => {
 	try {
 		await app.users.insertOne(ctx.request.body.data);
@@ -44,7 +44,7 @@ router.post(`${BASE_URL}`, async ctx => {
 	}
 });
 
-//GET /api/v1/users/:index
+//GET /api/v2/users/:index
 router.get(`${BASE_URL}/:index`, async ctx => {
 	try {
 		const userData = await app.users.find().toArray();
@@ -71,7 +71,7 @@ router.get(`${BASE_URL}/:index`, async ctx => {
 	}
 });
 
-//GET /api/v1/users/id/:id
+//GET /api/v2/users/id/:id
 router.get(`${BASE_URL}/id/:id`, async ctx => {
 	try {
 		const id = ctx.params.id;
@@ -101,7 +101,7 @@ router.get(`${BASE_URL}/id/:id`, async ctx => {
 	}
 });
 
-//PUT /api/v1/users/id/:id
+//PUT /api/v2/users/id/:id
 router.put(`${BASE_URL}/id/:id`, async ctx => {
 	try {
 		const id = ctx.params.id;
@@ -127,7 +127,7 @@ router.put(`${BASE_URL}/id/:id`, async ctx => {
 	}
 });
 
-//DELETE /api/v1/users/id/:id
+//DELETE /api/v2/users/id/:id
 router.delete(`${BASE_URL}/id/:id`, async ctx => {
 	try {
 		const id = ctx.params.id;
