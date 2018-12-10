@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const router = new Router();
-// const ObjectID = require('mongodb').ObjectID;
+const ObjectID = require('mongodb').ObjectID;
 
 const app = require('../../server.js');
 const BASE_URL = '/api/v2/tickets';
@@ -79,12 +79,11 @@ router.get(`${BASE_URL}/:reference`, jwt, async ctx => {
 //PUT /api/v2/tickets/:reference
 router.put(`${BASE_URL}/:reference`, jwt, async ctx => {
 	try {
-    console.log('Server reference: ', ctx.params.reference);
-    console.log('Server new info: ', ctx.request.body.ticket);
-		const reference = ctx.params.reference;
-		const newInfo = ctx.request.body.ticket;
+    const reference = ctx.params.reference;
+    const newInfo = ctx.request.body.ticket;
+    delete newInfo._id;
 		await app.tickets.updateOne(
-			{ reference: reference },
+      { reference: reference },
 			{ $set: newInfo },
 			{ upsert: true }
 		);
@@ -96,7 +95,7 @@ router.put(`${BASE_URL}/:reference`, jwt, async ctx => {
 			data: updatedTicket
 		};
 	} catch (error) {
-		ctx.status = 400;
+    ctx.status = 400;
 		ctx.body = {
 			status: 'error',
 			message: error.message || 'Sorry, an error has ocurred.'
