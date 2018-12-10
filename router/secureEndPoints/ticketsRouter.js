@@ -28,7 +28,7 @@ router.get(`${BASE_URL}`, jwt, async ctx => {
 });
 
 //POST /api/v2/tickets
-router.post(`${BASE_URL}`, async ctx => {
+router.post(`${BASE_URL}`, jwt, async ctx => {
   try {
     await app.tickets.insertOne(ctx.request.body.data);
     const newEntry = await app.tickets.findOne(ctx.request.body.data);
@@ -48,7 +48,7 @@ router.post(`${BASE_URL}`, async ctx => {
 });
 
 //GET /api/v2/tickets/:reference
-router.get(`${BASE_URL}/:reference`, async ctx => {
+router.get(`${BASE_URL}/:reference`, jwt, async ctx => {
   try {
     const ticketData = await app.tickets
       .find({ reference: ctx.params.reference })
@@ -77,10 +77,12 @@ router.get(`${BASE_URL}/:reference`, async ctx => {
 });
 
 //PUT /api/v2/tickets/:reference
-router.put(`${BASE_URL}/:reference`, async ctx => {
+router.put(`${BASE_URL}/:reference`, jwt, async ctx => {
 	try {
+    console.log('Server reference: ', ctx.params.reference);
+    console.log('Server new info: ', ctx.request.body.ticket);
 		const reference = ctx.params.reference;
-		const newInfo = ctx.request.body.data;
+		const newInfo = ctx.request.body.ticket;
 		await app.tickets.updateOne(
 			{ reference: reference },
 			{ $set: newInfo },
@@ -90,7 +92,7 @@ router.put(`${BASE_URL}/:reference`, async ctx => {
 		ctx.status = 200;
 		ctx.body = {
 			status: 'success',
-			message: `Updated object id ${id} successfully`,
+			message: `Updated ticket reference ${reference} successfully`,
 			data: updatedTicket
 		};
 	} catch (error) {
