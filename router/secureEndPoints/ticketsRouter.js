@@ -10,69 +10,71 @@ const jwt = require('./jwt.js');
 
 //GET /api/v2/tickets
 router.get(`${BASE_URL}`, jwt, async ctx => {
-	try {
-        const ticketData = await app.tickets.find().toArray();
-		ctx.status = 200;
-		ctx.body = {
-			status: 'success',
-            message: `Got ${ticketData.length} entries`,
-            data: ticketData
-		};
-	} catch (error) {
-		ctx.status = 400;
-		ctx.body = {
-			status: 'error',
-			message: error.message || 'Sorry, an error has occurred.'
-		};
-	}
+  try {
+    const ticketData = await app.tickets.find().toArray();
+    ctx.status = 200;
+    ctx.body = {
+      status: 'success',
+      message: `Got ${ticketData.length} entries`,
+      data: ticketData
+    };
+  } catch (error) {
+    ctx.status = 400;
+    ctx.body = {
+      status: 'error',
+      message: error.message || 'Sorry, an error has occurred.'
+    };
+  }
 });
 
 //POST /api/v2/tickets
 router.post(`${BASE_URL}`, async ctx => {
-	try {
-		await app.tickets.insertOne(ctx.request.body.data);
-		const newEntry = await app.tickets.findOne(ctx.request.body.data);
-		ctx.status = 200;
-		ctx.body = {
-			status: 'success',
-			message: `Posted new entry id: ${newEntry._id}`,
-			data: newEntry
-		};
-	} catch (error) {
-		ctx.status = 400;
-		ctx.body = {
-			status: 'error',
-			message: error.message || 'Sorry, an error has ocurred.'
-		};
-	}
+  try {
+    await app.tickets.insertOne(ctx.request.body.data);
+    const newEntry = await app.tickets.findOne(ctx.request.body.data);
+    ctx.status = 200;
+    ctx.body = {
+      status: 'success',
+      message: `Posted new entry id: ${newEntry._id}`,
+      data: newEntry
+    };
+  } catch (error) {
+    ctx.status = 400;
+    ctx.body = {
+      status: 'error',
+      message: error.message || 'Sorry, an error has ocurred.'
+    };
+  }
 });
 
-// //GET /api/v2/tickets/:index
-// router.get(`${BASE_URL}/:index`, async ctx => {
-// 	try {
-// 		const ticketData = await app.tickets.find().toArray();
-// 		if (ctx.params.index < ticketData.length) {
-// 			ctx.status = 200;
-// 			ctx.body = {
-// 				status: 'success',
-// 				message: `Retrieved object id: ${ticketData[ctx.params.index]._id}`,
-// 				data: ticketData[ctx.params.index]
-// 			};
-// 		} else {
-// 			ctx.status = 404;
-// 			ctx.body = {
-// 				status: 'error',
-// 				message: 'That element does not exist on the collection'
-// 			};
-// 		}
-// 	} catch (error) {
-// 		ctx.status = 400;
-// 		ctx.body = {
-// 			status: 'error',
-// 			message: error.message || 'Sorry, an error has ocurred.'
-// 		};
-// 	}
-// });
+//GET /api/v2/tickets/:reference
+router.get(`${BASE_URL}/:reference`, async ctx => {
+  try {
+    const ticketData = await app.tickets
+      .find({ reference: ctx.params.reference })
+      .toArray();
+    if (ticketData) {
+      ctx.status = 200;
+      ctx.body = {
+        status: 'success',
+        message: `Retrieved object reference: ${ctx.params.reference}`,
+        data: ticketData
+      };
+    } else {
+      ctx.status = 404;
+      ctx.body = {
+        status: 'error',
+        message: 'That element does not exist on the collection'
+      };
+    }
+  } catch (error) {
+    ctx.status = 400;
+    ctx.body = {
+      status: 'error',
+      message: error.message || 'Sorry, an error has ocurred.'
+    };
+  }
+});
 
 //GET /api/v2/tickets/id/:id
 // router.get(`${BASE_URL}/id/:id`, async ctx => {
