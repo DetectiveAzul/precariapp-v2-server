@@ -76,6 +76,33 @@ router.get(`${BASE_URL}/:reference`, async ctx => {
   }
 });
 
+//PUT /api/v2/tickets/:reference
+router.put(`${BASE_URL}/:reference`, async ctx => {
+	try {
+		const reference = ctx.params.reference;
+		const newInfo = ctx.request.body.data;
+		await app.tickets.updateOne(
+			{ reference: reference },
+			{ $set: newInfo },
+			{ upsert: true }
+		);
+		const updatedTicket =  await app.tickets.findOne({reference: reference});
+		ctx.status = 200;
+		ctx.body = {
+			status: 'success',
+			message: `Updated object id ${id} successfully`,
+			data: updatedTicket
+		};
+	} catch (error) {
+		ctx.status = 400;
+		ctx.body = {
+			status: 'error',
+			message: error.message || 'Sorry, an error has ocurred.'
+		};
+	}
+});
+
+
 //GET /api/v2/tickets/id/:id
 // router.get(`${BASE_URL}/id/:id`, async ctx => {
 // 	try {
