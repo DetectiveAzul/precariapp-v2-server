@@ -80,7 +80,7 @@ router.get(`${BASE_URL}/:reference`, jwt, async ctx => {
 });
 
 //POST /api/v2/tickets/today
-router.post(`${BASE_URL}/today`, jwt, async ctx => {
+router.get(`${BASE_URL}/today`, jwt, async ctx => {
   try {
     const todaysDate = helpers.dateGrabber();
     const todaysTickets = await app.tickets.find({opened: /todaysDate/})
