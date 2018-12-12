@@ -76,6 +76,26 @@ router.get(`${BASE_URL}/:reference`, jwt, async ctx => {
   }
 });
 
+//POST /api/v2/tickets/today
+router.post(`${BASE_URL}/today`, jwt, async ctx => {
+  try {
+    const todaysDate = ctx.request.body.data;
+    const todaysTickets = await app.tickets.find({opened: /todaysDate/})
+    ctx.status = 200;
+    ctx.body = {
+      status: 'success',
+      message: `We have find ${todaysTickets.length} tickets`,
+      data: todaysTickets
+    };
+  } catch (error) {
+    ctx.status = 400;
+    ctx.body = {
+      status: 'error',
+      message: error.message || 'Sorry, an error has ocurred.'
+    };
+  }
+});
+
 //PUT /api/v2/tickets/:reference
 router.put(`${BASE_URL}/:reference`, jwt, async ctx => {
 	try {
@@ -87,7 +107,9 @@ router.put(`${BASE_URL}/:reference`, jwt, async ctx => {
 			{ $set: newInfo },
 			{ upsert: true }
 		);
-		const updatedTicket =  await app.tickets.findOne({reference: reference});
+    const updatedTicket =  await app.tickets
+      .findOne({reference: reference})
+      .toArray();
 		ctx.status = 200;
 		ctx.body = {
 			status: 'success',
