@@ -8,6 +8,9 @@ const BASE_URL = '/api/v2/tickets';
 //Auth
 const jwt = require('./jwt.js');
 
+//Helpers
+const helpers = require('../../helpers/helpers.js');
+
 //GET /api/v2/tickets
 router.get(`${BASE_URL}`, jwt, async ctx => {
   try {
@@ -79,7 +82,7 @@ router.get(`${BASE_URL}/:reference`, jwt, async ctx => {
 //POST /api/v2/tickets/today
 router.post(`${BASE_URL}/today`, jwt, async ctx => {
   try {
-    const todaysDate = ctx.request.body.data;
+    const todaysDate = helpers.dateGrabber();
     const todaysTickets = await app.tickets.find({opened: /todaysDate/})
     ctx.status = 200;
     ctx.body = {
