@@ -50,6 +50,28 @@ router.post(`${BASE_URL}`, jwt, async ctx => {
   }
 });
 
+//GET /api/v2/tickets/today
+router.get(`${BASE_URL}/today`, jwt, async ctx => {
+  try {
+    const todaysDate = helpers.dateGrabber();
+    const todaysTickets = await app.tickets
+    .find({opened: todaysDate })
+    .toArray();
+    ctx.status = 200;
+    ctx.body = {
+      status: 'success',
+      message: `We have find ${todaysTickets.length} tickets`,
+      data: todaysTickets
+    };
+  } catch (error) {
+    ctx.status = 400;
+    ctx.body = {
+      status: 'error',
+      message: error.message || 'Sorry, an error has ocurred.'
+    };
+  }
+});
+
 //GET /api/v2/tickets/:reference
 router.get(`${BASE_URL}/:reference`, jwt, async ctx => {
   try {
@@ -70,26 +92,6 @@ router.get(`${BASE_URL}/:reference`, jwt, async ctx => {
         message: 'That element does not exist on the collection'
       };
     }
-  } catch (error) {
-    ctx.status = 400;
-    ctx.body = {
-      status: 'error',
-      message: error.message || 'Sorry, an error has ocurred.'
-    };
-  }
-});
-
-//POST /api/v2/tickets/today
-router.get(`${BASE_URL}/today`, jwt, async ctx => {
-  try {
-    const todaysDate = helpers.dateGrabber();
-    const todaysTickets = await app.tickets.find({opened: /todaysDate/})
-    ctx.status = 200;
-    ctx.body = {
-      status: 'success',
-      message: `We have find ${todaysTickets.length} tickets`,
-      data: todaysTickets
-    };
   } catch (error) {
     ctx.status = 400;
     ctx.body = {
