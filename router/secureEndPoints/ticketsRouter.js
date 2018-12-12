@@ -61,6 +61,7 @@ router.get(`${BASE_URL}/today`, jwt, async ctx => {
     ctx.body = {
       status: 'success',
       message: `We have find ${todaysTickets.length} tickets`,
+      date: todaysDate,
       data: todaysTickets
     };
   } catch (error) {
@@ -113,8 +114,7 @@ router.put(`${BASE_URL}/:reference`, jwt, async ctx => {
 			{ upsert: true }
 		);
     const updatedTicket =  await app.tickets
-      .findOne({reference: reference})
-      .toArray();
+      .findOne({reference: reference});
 		ctx.status = 200;
 		ctx.body = {
 			status: 'success',
